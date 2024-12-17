@@ -48,7 +48,7 @@
         
         <br clear="all">
         <br clear="all">
-        
+        <div class="userInps">
         <select id="selWep" class="sels"></select>
 
         <select id="selBase" class="sels"></select>
@@ -151,7 +151,7 @@
         <br><br>
     
         <select id="selCrit" class="sels">
-            <option value="0">Increased Critical Chance</option>
+            <option value="0">Added Critical Hit Chance</option>
     
             <option value="1">Tier 1</option>
             <option value="2">Tier 2</option>
@@ -165,8 +165,8 @@
         </select>
     
         
-        <input type="number" id="inpCrit" class="inps" min="15" max="79">
-    <label for="inpCrit">% Increased Critical Chance</label>
+        <span style="margin-left: 31px;">+</span><input type="number" id="inpCrit" class="inps" min="1.01" max="5" step="0.01">
+    <label for="inpCrit">% to Critical Hit Chance</label>
         <br><br>
 
         <select id="selEnch" class="sels">
@@ -195,7 +195,8 @@
         <div id="displayTierValues">
             <p><span id="minFlatValue"></span>  <span id="maxFlatValue"></span></p>
         </div>
-        
+
+        </div>
 
 </div>
 
@@ -204,17 +205,17 @@
 
 @font-face {
     font-family: 'Fontin Regular';
-    src: url('css/Fontin-Regular.otf');
+    src: url('css/font/Fontin-Regular.otf');
 }
 
 @font-face {
     font-family: 'Fontin Bold';
-    src: url('css/Fontin-Bold.otf');
+    src: url('css/font/Fontin-Bold.otf');
 }
 
 @font-face {
     font-family: 'Fontin SmallCaps';
-    src: url('css/Fontin-SmallCaps.otf');
+    src: url('css/font/Fontin-SmallCaps.otf');
 }
 
 body {
@@ -315,17 +316,19 @@ position: relative;
 }
 
 */
-
+.userInps {
+    font-family: 'Fontin SmallCaps';
+}
 
 .sels {
             width: 170px;
-            font-family: 'Fontin Regular', sans-serif;
+            font-family: 'Fontin SmallCaps';
 
         }
 
         .inps{
             width: 44px;
-            font-family: 'Fontin Regular', sans-serif;
+            font-family: 'Fontin SmallCaps';
             text-transform: uppercase;
             color: #fff;
     background-color: #222;
@@ -348,7 +351,7 @@ position: relative;
 -webkit-text-stroke-color: rgb(163, 141, 109);
         }
 
-        #inpPhys, #inpHyb, #inpSpeed, #inpCrit, #inpEnch1 {
+        #inpPhys, #inpHyb, #inpSpeed,  #inpEnch1 {
             margin-left: 38px;
         }
 
@@ -357,8 +360,12 @@ position: relative;
         #displayTierValues{
             display: none;
         }
+        
+#disclaimer {
+    text-align: center;
+}
 
-        </style>
+</style>
         
 </body>
 </html>
