@@ -729,13 +729,18 @@ updateVisitCount();
 });
 
 
-    // Function to fetch and update the visit count
+    // Function to increment and fetch the visit count
     function updateVisitCount() {
-        // Using your specific namespace and counter name
-        fetch('https://kounter.cab/api/hit/pathofjs/poe2pdps/')
+        // Increment the counter
+        fetch('https://count.cab/hit/pJm6wRpmYs')
         .then(response => response.json())
         .then(data => {
-            document.getElementById('visit-count').innerText = data.count;
+            // After incrementing, fetch the new count
+            return fetch('https://count.cab/get/pJm6wRpmYs');
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('counter').innerText = data.count;
         })
         .catch(error => console.error('Error:', error));
     }
