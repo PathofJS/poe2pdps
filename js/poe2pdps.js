@@ -728,7 +728,7 @@ updateVisitCount();
 
 });
 
-<script>
+
     // Function to fetch and update the visit count
     function updateVisitCount() {
         // Using your specific namespace and counter name
