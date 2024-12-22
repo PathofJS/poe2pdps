@@ -709,7 +709,7 @@ updatePdps();
 
 function updateVisitCount() {
   // Using your specific URL for the namespace
-  fetch('https://api.countapi.xyz/hit/pathofjs.github.io/poe2pdps/visits')
+  fetch('https://api.countapi.xyz/hit/pathofjs.github.io/poe2pdps/')
   .then(response => response.json())
   .then(data => {
       document.getElementById('visit-count').innerText = data.value;
