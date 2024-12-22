@@ -727,3 +727,18 @@ updateVisitCount();
 
 
 });
+
+<script>
+    // Function to fetch and update the visit count
+    function updateVisitCount() {
+        // Using your specific namespace and counter name
+        fetch('https://kounter.cab/api/hit/pathofjs/poe2pdps/')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('visit-count').innerText = data.count;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Call the function when the page loads
+    document.addEventListener('DOMContentLoaded', updateVisitCount);
