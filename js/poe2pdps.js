@@ -5,9 +5,8 @@ const wepName = document.querySelector('.wepName');
 
 const wepClass = document.getElementById('wepClass');
 const baseImg = document.getElementById("baseImg");
-const imagePathPrefix = "img/poe2/art/"; // Correct path!
+const imagePathPrefix = "img/poe2/art/"; 
 
-// Weapon type to image name mapping
 const weaponImageNameMap = {
   "Crossbow": "2HCrossbow0",
   "Bow": "Bow0",
@@ -27,26 +26,21 @@ function preloadImages(imageNameBase, artValue) {
 const inpBaseMin = document.getElementById("inpBaseMin");
 const inpBaseMax = document.getElementById("inpBaseMax");
 
-//Flat Phys: Select and Input vars
 const selFlat = document.getElementById("selFlat");
 const inpFlatMin = document.getElementById("inpFlatMin");
 const inpFlatMax = document.getElementById("inpFlatMax");
 
 const displayTierValues = document.getElementById("displayTierValues");
 
-//Inc Phys: Select and Input vars
 const selPhys = document.getElementById("selPhys");
 const inpPhys = document.getElementById("inpPhys");
 
-//Inc Hybrid: Select and Input vars
 const selHyb = document.getElementById("selHyb");
 const inpHyb = document.getElementById("inpHyb");
 
-//Inc Speed: Select and Input vars
 const selSpeed = document.getElementById("selSpeed");
 const inpSpeed = document.getElementById("inpSpeed");
 
-//Inc Speed: Select and Input vars
 const selCrit = document.getElementById("selCrit");
 const inpCrit = document.getElementById("inpCrit");
 
@@ -54,7 +48,6 @@ const totalMin = document.getElementById("totalMin");
 const totalMax = document.getElementById("totalMax");
 const wepAps = document.getElementById("wepAps");
 
-//Quality Input vars
 const inpQual = document.getElementById("inpQual");
 const wepQual = document.getElementById("wepQual");
 
@@ -62,8 +55,6 @@ const basePdps = document.getElementById("basePdps");
 
 
             
-
-//ARRAYS
 
 
 const Bow = {
@@ -158,7 +149,7 @@ OakGreathammer0: { type: 0, min: 14, max: 26, crit: 5.00, aps: 1.05, art: 2 }
 };
 
 const weaponData = {
-  "Bow": { data: Bow, h: "1" },
+  "Bow": { data: Bow, h: "2" },
   "Crossbow": { data: Crossbow, h: "2" },
   "One Hand Mace": { data: OneHandMace, h: "1" },
   "Quarterstaff": { data: Quarterstaff, h: "2" },
@@ -263,7 +254,6 @@ const tiersEnch = [
 
 
 
-          // Populate selWep
     for (const weaponType in weaponData) {
       const option = document.createElement("option");
       option.value = weaponType;
@@ -272,7 +262,7 @@ const tiersEnch = [
   }
 
   function formatWeaponName(name) {
-    let formattedName = name.replace(/([A-Z])/g, ' $1').trim(); // Add spaces before capital letters
+    let formattedName = name.replace(/([A-Z])/g, ' $1').trim();
     let prefix = "";
 
     if (name.endsWith("1")) {
@@ -281,8 +271,8 @@ const tiersEnch = [
         prefix = "Expert ";
     }
 
-    formattedName = formattedName.replace(/\d+$/, ''); // Remove trailing numbers
-    return prefix + formattedName.charAt(0).toUpperCase() + formattedName.slice(1); // Capitalize and add prefix
+    formattedName = formattedName.replace(/\d+$/, ''); 
+    return prefix + formattedName.charAt(0).toUpperCase() + formattedName.slice(1);
 }
 
   function populateSelBase(weaponDataToUse) {
@@ -304,31 +294,27 @@ const tiersEnch = [
 
   function handleWeaponSelection() {
     const selectedWeaponType = selWep.value;
-    // Access the 'data' property
+
     baseData = weaponData[selectedWeaponType].data;
     populateSelBase(baseData);
     
-    // Check if the weapon is 1H or 2H
     const isTwoHanded = weaponData[selectedWeaponType].h === "2";
     
-    // Populate selFlat with the correct tier data
     populateSelFlat(isTwoHanded);
     updateInpFlatTier(selFlat.value);
     updateWepClass(selectedWeaponType);
-    handleBaseSelection(); // Call after baseData is set
+    handleBaseSelection(); 
 }
 
 function populateSelFlat(isTwoHanded) {
-  selFlat.innerHTML = ""; // Clear existing options
+  selFlat.innerHTML = ""; 
   const tiers = isTwoHanded ? tiersFlat2h : tiersFlat;
   
-  // Add R0 as the first option
   const optionR0 = document.createElement("option");
   optionR0.value = "0";
   optionR0.text = "Added Physical Damage";
   selFlat.appendChild(optionR0);
   
-  // Populate selFlat with tiers from 9 to 1
   for (let tier = 9; tier >= 1; tier--) {
       const option = document.createElement("option");
       option.value = tier;
@@ -336,7 +322,6 @@ function populateSelFlat(isTwoHanded) {
       selFlat.appendChild(option);
   }
   
-  // Set R0 as the initial selected option
   selFlat.value = "0";
 }
 
@@ -349,8 +334,8 @@ selWep.addEventListener("change", () => {
 
 });
 
-  selWep.selectedIndex = 0; // Select first weapon on load
-  handleWeaponSelection(); // Call on page load
+  selWep.selectedIndex = 0; 
+  handleWeaponSelection(); 
 
   function handleBaseSelection() {
     const selectedBase = selBase.value;
@@ -387,12 +372,10 @@ selWep.addEventListener("change", () => {
       }
   }
             
-           // EventListeners for Changes in Select elements
-  
-           selBase.addEventListener("change", () => {
+    selBase.addEventListener("change", () => {
     const selectedBase = parseInt(selBase.value);
     updateInpBase(selectedBase);
-    updateTotalValues(); // Call updateTotalValues here as well
+    updateTotalValues(); 
     updatePdps();
   });
 
@@ -429,7 +412,6 @@ selCrit.addEventListener("change", () => {
 });
 
 
-// Add event listeners to update total values when input values change
 const inputElements = [
   inpFlatMin,
   inpFlatMax,
@@ -452,24 +434,20 @@ inputElements.forEach(input => {
 
 
 
-// Initialize input elements with numerical values (optional)
-
-// Functions for EventListeners from above, for changes in Tiers in Select elements
 
 function updateInpBase(baseName) {
   if (baseData && baseData[baseName]) {
       inpBaseMin.value = baseData[baseName].min;
       inpBaseMax.value = baseData[baseName].max;
-      inpBaseAps.value = baseData[baseName].aps; //Added line
+      inpBaseAps.value = baseData[baseName].aps; 
   } else {
       inpBaseMin.value = "";
       inpBaseMax.value = "";
-      inpBaseAps.value = ""; //Added line
+      inpBaseAps.value = ""; 
       console.error("Invalid base selected:", baseName);
   }
 }
 
-// Update span elements when base tier changes
 selBase.addEventListener("change", () => {
   const selectedBase = selBase.value;
   updateInpBase(selectedBase);
@@ -482,31 +460,24 @@ function updateInpFlatTier(tier) {
   const tierData = isTwoHanded ? tiersFlat2h[tier] : tiersFlat[tier];
 
   if (tierData) {
-    // Set min and max for reference
     inpFlatMin.min = tierData.min1;
     inpFlatMin.max = tierData.max1;
-    inpFlatMin.value = tierData.max1; // Set initial value to max
+    inpFlatMin.value = tierData.max1; 
 
     inpFlatMax.min = tierData.min2;
     inpFlatMax.max = tierData.max2;
-    inpFlatMax.value = tierData.max2; // Set initial value to max
+    inpFlatMax.value = tierData.max2;
 
     if (tier !== "0") {
-      inpFlatMin.value = tierData.max1; // Set initial value to max
-      inpFlatMax.value = tierData.max2; // Set initial value to max
+      inpFlatMin.value = tierData.max1; 
+      inpFlatMax.value = tierData.max2; 
     } else {
       inpFlatMin.value = "";
       inpFlatMax.value = "";
     }
 
-    // Update span elements for reference (optional)
-    // Note: minFlatValue and maxFlatValue are not defined in your provided code
-    // if (minFlatValue && maxFlatValue) {
-    //   minFlatValue.textContent = tierData.max1;
-    //   maxFlatValue.textContent = tierData.max2;
-    // }
 
-    displayTierValues.style.display = "block"; // Should this be "block" or "none"? Check your UI needs
+    displayTierValues.style.display = "block"; 
   } else {
     console.error("Invalid flat tier selected:", tier);
     displayTierValues.style.display = "none";
@@ -517,13 +488,11 @@ function updateInpPhysTier(tier) {
   const tierData = tiersPhys[tier];
 
   if (tierData) {
-    inpPhys.min = tierData.min; // Set minimum value based on tier
-    inpPhys.max = tierData.max; // Set maximum value based on tier
-    inpPhys.value = tierData.max; // Set initial value to max(optional)
-    // Update display elements (optional)
+    inpPhys.min = tierData.min; 
+    inpPhys.max = tierData.max;
+    inpPhys.value = tierData.max; 
     displayTierValues.style.display = "none";
   } else {
-    // Handle invalid tier selection (optional)
     console.error("Invalid Phys tier selected:", tier);
     displayTierValues.style.display = "none";
   }
@@ -534,30 +503,26 @@ function updateInpHybTier(tier) {
   const tierData = tiersHyb[tier];
 
   if (tierData) {
-    inpHyb.min = tierData.min; // Set minimum value based on tier
-    inpHyb.max = tierData.max; // Set maximum value based on tier
-    inpHyb.value = tierData.max; // Set initial value to max (optional)
-    // Update display elements (optional)
+    inpHyb.min = tierData.min; 
+    inpHyb.max = tierData.max; 
+    inpHyb.value = tierData.max; 
     displayTierValues.style.display = "none";
   } else {
-    // Handle invalid tier selection (optional)
     console.error("Invalid Hyb tier selected:", tier);
     displayTierValues.style.display = "none";
   }
 }
 
-// Update the Attack Speed when Tier is Selected
 
 function updateInpSpeedTier(tier) {
   const tierData = tiersSpeed[tier];
 
   if (tierData) {
-    inpSpeed.min = tierData.min; // Set minimum value based on tier
-    inpSpeed.max = tierData.max; // Set maximum value based on tier
-    // (Optional) Set initial value for inpSpeed (e.g., inpSpeed.value = tierData.max)
+    inpSpeed.min = tierData.min; 
+    inpSpeed.max = tierData.max;
+    
     inpSpeed.value = tierData.max;
   } else {
-    // Handle invalid tier selection (optional)
     console.error("Invalid Speed tier selected:", tier);
   }
 }
@@ -568,7 +533,7 @@ function updateInpCritTier(tier) {
   if (tierData) {
     inpCrit.min = tierData.min;
     inpCrit.max = tierData.max;
-    inpCrit.value = tierData.max; // Set initial value to max
+    inpCrit.value = tierData.max; 
   } else {
     console.error("Invalid Crit tier selected:", tier);
   }
@@ -578,8 +543,8 @@ function updateInpCritTier(tier) {
 
 
 function updatePdps() {
-  const minPdps = parseFloat(totalMin.innerText); // Assuming wepMin exists
-  const maxPdps = parseFloat(totalMax.innerText); // Assuming wepMax exists
+  const minPdps = parseFloat(totalMin.innerText); 
+  const maxPdps = parseFloat(totalMax.innerText); 
   const aps = parseFloat(wepAps.innerText);
 
   const finalDPS = ((minPdps + maxPdps) / 2) * aps;
@@ -599,7 +564,6 @@ function updateTotalValues() {
   let inpPhysValue = parseInt(inpPhys.value);
   let inpHybValue = parseInt(inpHyb.value);
 
-  // Handle empty string input
   if (isNaN(inpPhysValue)) {
     inpPhysValue = 0;
   }
@@ -607,29 +571,24 @@ function updateTotalValues() {
     inpHybValue = 0;
   }
 
-  // Calculate total values based on tier selection
   let minTotal = minBaseValue + minFlatValue;
   let maxTotal = maxBaseValue + maxFlatValue;
 
   if (minFlatValue > 0 || maxFlatValue > 0) {
-    // If flat tiers are selected, calculate using totalFlats
     const totalFlats = minFlatValue + maxFlatValue;
 
-    // Determine multiplier based on tier selection
     let multiplier = 1;
     if (inpPhysValue > 0 || inpHybValue > 0) {
       const totalTierValue = inpPhysValue + inpHybValue;
       multiplier = 1 + totalTierValue / 100;
     }
 
-    // Apply multiplier without rounding first
     minTotal *= multiplier;
     maxTotal *= multiplier;
 
 
     
   } else {
-    // If flat tiers are not selected, use base values directly
     if (inpPhysValue > 0 || inpHybValue > 0) {
       const totalTierValue = inpPhysValue + inpHybValue;
       multiplier = 1 + totalTierValue / 100;
@@ -639,7 +598,6 @@ function updateTotalValues() {
     }
   }
 
-  // Apply quality multiplier at the end
   minTotal = minTotal * qualityMultiplier;
   maxTotal = maxTotal * qualityMultiplier;
 
@@ -647,23 +605,21 @@ function updateTotalValues() {
   totalMax.innerText = Math.round(maxTotal);
   wepQual.innerText = isNaN(incQual) ? 0 : incQual;
 
-  // Update `wepAps` based on base APS and speed modifier
+
   const selectedBase = selBase.value;
-  const baseItem = baseData[selectedBase]; // Use baseData to access the correct weapon data
+  const baseItem = baseData[selectedBase]; 
   const baseCritChance = baseItem ? baseItem.crit : 0;
 
-// Get the crit multiplier from inpCrit, handling invalid input
+  
 const critMultiplierInput = parseFloat(inpCrit.value);
 const critMultiplier = isNaN(critMultiplierInput) ? 0 : critMultiplierInput;
 
-// Calculate the total crit chance
 const totalCritChance = baseCritChance + critMultiplier;
 
-  // Display the calculated crit chance in the wepCrit element
   wepCrit.innerText = totalCritChance.toFixed(2) + "%";
 
   if (baseData) {
-    const baseItem = baseData[selectedBase]; // Access the specific base item
+    const baseItem = baseData[selectedBase]; 
 
     if (baseItem && baseItem.hasOwnProperty('aps')) {
         const baseAps = parseFloat(baseItem.aps);
@@ -687,9 +643,6 @@ const totalCritChance = baseCritChance + critMultiplier;
 }
 
 selSpeed.addEventListener('change', () => {
-  // Update inpSpeed value based on selSpeed selection
-  // ... (code to update inpSpeed based on selSpeed)
-  // Trigger updateTotalValues to recalculate and display
   updateTotalValues();
   updatePdps();
 });
@@ -702,48 +655,28 @@ selBase.addEventListener('change', () => {
   wepName.textContent = selBase.options[selBase.selectedIndex].text;
   updateInpBase(selectedBase);
   updateTotalValues();
+  updatePdps();
 
-// Functions for updating tiers of Phys, Hyb, Speed (similar to updateInpFlatTier)
-// Implement similar logic for updateInpPhysTier, updateInpHybTier, and updateInpSpeedTier functions
-updatePdps();
+});
 
 function updateVisitCount() {
-  // Using your specific URL for the namespace
-  fetch('https://api.countapi.xyz/hit/pathofjs.github.io/poe2pdps/')
+  // Increment the counter
+  fetch('https://count.cab/hit/pJm6wRpmYs')
   .then(response => response.json())
   .then(data => {
-      document.getElementById('visit-count').innerText = data.value;
+      // After incrementing, fetch the new count
+      return fetch('https://count.cab/get/pJm6wRpmYs');
+  })
+  .then(response => response.json())
+  .then(data => {
+      document.getElementById('counter').innerText = data.count;
   })
   .catch(error => console.error('Error:', error));
 }
+
 
 updateVisitCount();
 
 });
 
 
-
-
-
-
-});
-
-
-    // Function to increment and fetch the visit count
-    function updateVisitCount() {
-        // Increment the counter
-        fetch('https://count.cab/hit/pJm6wRpmYs')
-        .then(response => response.json())
-        .then(data => {
-            // After incrementing, fetch the new count
-            return fetch('https://count.cab/get/pJm6wRpmYs');
-        })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('counter').innerText = data.count;
-        })
-        .catch(error => console.error('Error:', error));
-    }
-
-    // Call the function when the page loads
-    document.addEventListener('DOMContentLoaded', updateVisitCount);
