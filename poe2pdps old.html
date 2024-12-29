@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>dpscalc</title>
+    <title>PoE 2 PDPS Calculator</title>
     <script src="js/poe2pdps.js"></script>
 
 
@@ -15,7 +15,7 @@
           <centre>
         
             <span class="wepHead"><br><span class="wepName"></span></span><br>
-            Two Handed Axe<br>
+            <span id="wepClass">Weapon Class</span><br>
             Quality: <span class="wepVal">+<span id="wepQual">0</span>%</span><br>
             Physical Damage: <span class="wepVal"><span  id="totalMin">0</span>-<span  id="totalMax">0</span></span><br>
             Critical Strike Chance: <span id="wepCrit" class="wepVal">0.00%</span><br>
@@ -25,18 +25,15 @@
             Item Level: 86<br>
             Requires Level 67, 151 Str, 43 Dex<br>
             <img style="text-align: center; vertical-align: middle;" src="img/poe2/separator-rare.png"><br>
-            <span class="wepEnch" style="text-align: center; vertical-align: middle; color: #b4b4ff;">Enchantment line</span><br>
+            <span id="wepRune1" style="text-align: center; vertical-align: middle; color: #b4b4ff;">Rune Implicit 1</span><br>
+            <span id="wepRune2" style="text-align: center; vertical-align: middle; color: #b4b4ff;"></span><br class="wepRuneBr" style="display: none;">
             <img style="text-align: center; vertical-align: middle;" src="img/poe2/separator-rare.png"><br>
-            <span class="wepEnch" style="text-align: center; vertical-align: middle;color:#88f">Synth line1</span><br>
-            <span class="wepEnch" style="text-align: center; vertical-align: middle;color:#88f">Synth line2</span><br>
-            <span class="wepEnch" style="text-align: center; vertical-align: middle;color:#88f">Synth line3 lol</span><br>
-            <img style="text-align: center; vertical-align: middle;" src="img/poe2/separator-rare.png"><br>
-            <span id="wepPrf1" class="aff">Pref1</span><br>
-            <span id="wepPrf2" class="aff">Pref2</span><br>
-            <span id="wepPrf3" class="aff">Pref3</span><br>
-            <span id="wepSuf1" class="aff">Suf1</span><br>
-            <span id="wepSuf2" class="aff">Suf2</span><br>
-            <span id="wepSuf3" class="aff">Suf3</span><br><br>
+            <span id="wepPrf1" class="aff">P1</span><br>
+            <span id="wepPrf2" class="aff">P2</span><br>
+            <span id="wepPrf3" class="aff">P3</span><br>
+            <span id="wepSuf1" class="aff">S1</span><br>
+            <span id="wepSuf2" class="aff">S2</span><br>
+            <span id="wepSuf3" class="aff">S3</span><br><br>
           </centre>
         </div> 
         
@@ -66,128 +63,98 @@
         <br clear="all">
         <br clear="all">
 
-        <select id="selFlat" class="sels">
-            <option value="0">Added Physical Damage</option>
-            <option value="1">R 1</option>
-            <option value="2">R 2</option>
-            <option value="3">R 3</option>
-            <option value="4">R 4</option>
-            <option value="5">R 5</option>
-            <option value="6">R 6</option>
-            <option value="7">R 7</option>
-            <option value="7">R 8</option>
-            <option value="7">R 9</option>
 
-        </select>
-    
-        <label for="inpFlatMin"></label>
-        Adds <input type="number" id="inpFlatMin" min="2" max="84" class="inps" placeholder="min"> to 
-    
-        <label for="inpFlatMax"></label>
-        <input type="number" id="inpFlatMax" min="4" max="84" class="inps" placeholder="max"> Physical Damage
-    
-    
-        <br><br>
+<select id="selFlat" class="sels">
+
+</select>
+
+<label for="inpFlatMin"></label>Adds <input type="number" id="inpFlatMin" min="2" max="84" class="inps" placeholder="min"> to <label for="inpFlatMax"></label>
+<input type="number" id="inpFlatMax" min="4" max="84" class="inps" placeholder="max"> Physical Damage
+<br><br>
     
     
-        <select id="selPhys" class="sels">
-            <option value="0">Increased Phys Damage</option>
-            
-            <option value="1">Tier 1</option>
-            <option value="2">Tier 2</option>
-            <option value="3">Tier 3</option>
-            <option value="10">Veil</option>
-            <option value="4">Tier 4</option>
-            <option value="9">Bench Craft</option>
-            <option value="5">Tier 5</option>        
-            <option value="6">Tier 6</option>
-            <option value="7">Tier 7</option>
-            <option value="8">Tier 8</option>
-           
-        </select>
+<select id="selPhys" class="sels">
+<option value="0">Increased Phys Damage</option>
+<option value="7">R7</option>
+<option value="6">R6</option>
+<option value="5">R5</option>
+<option value="4">R4</option>
+<option value="3">R3</option>
+<option value="2">R2</option>
+<option value="1">R1</option>
+</select>
+
+<input type="number" id="inpPhys" min="40" max="179" class="inps" >
+<label for="inpPhys">% Increased Physical Damage</label>
+<br><br>
+
+
+<select id="selHyb" class="sels">
+<option value="0">Increased Phys (Hybrid)</option>
+<option value="6">R6</option>
+<option value="5">R5</option>
+<option value="4">R4</option>
+<option value="3">R3</option>
+<option value="2">R2</option>
+<option value="1">R1</option>
+</select>
+
+<input type="number" id="inpHyb" min="15" max="79" class="inps" >
+<label for="inpHyb">% Increased Physical Damage</label>
+<br><br>
     
-        
-        <input type="number" id="inpPhys" min="40" max="179" class="inps" >
-    <label for="inpPhys">% Increased Physical Damage</label>
+
+<select id="selSpeed" class="sels">
+<option value="0">Increased Attack Speed</option>
+<option value="8">R8</option>
+<option value="7">R7</option>
+<option value="6">R6</option>
+<option value="5">R5</option>
+<option value="4">R4</option>
+<option value="3">R3</option>
+<option value="2">R2</option>
+<option value="1">R1</option>
+</select>
+
+<input type="number" id="inpSpeed" class="inps" min="15" max="79">
+<label for="inpSpeed">% Increased Attack Speed</label>
+<br><br>
+
+
+<select id="selCrit" class="sels">
+<option value="0">Added Critical Hit Chance</option>
+<option value="6">R6</option>
+<option value="5">R5</option>
+<option value="4">R4</option>
+<option value="3">R3</option>
+<option value="2">R2</option>
+<option value="1">R1</option>
+</select>
+
+<span style="margin-left: 32px;">+</span><input type="number" id="inpCrit" class="inps" min="1.01" max="5" step="0.01">
+<label for="inpCrit">% to Critical Hit Chance</label>
+<br><br>
+
+        <select id="selRune1" class="sels">
+            <option value="0">Rune Socket Implicit</option>
     
-        <br><br>
-    
-    
-        <select id="selHyb" class="sels">
-            <option value="0">Increased Phys (Hybrid)</option>
-            <option value="1">Tier 1</option>
-            <option value="2">Tier 2</option>
-            <option value="3">Tier 3</option>
-            <option value="4">Tier 4</option>
-            <option value="5">Tier 5</option>        
-            <option value="6">Tier 6</option>
-            <option value="7">Tier 7</option>
-            <option value="8">Tier 8</option>
-        </select>
-    
-        
-        <input type="number" id="inpHyb" min="15" max="79" class="inps" >
-        <label for="inpHyb">% Increased Physical Damage</label>
-        <br><br>
-    
-    
-        <select id="selSpeed" class="sels">
-            <option value="9">Increased Attack Speed</option>
-    
-            <option value="0">Essence</option>
-            <option value="1">Tier 1</option>
-            <option value="2">Tier 2</option>
-            <option value="3">Tier 3</option>
-            <option value="4">Tier 4</option>
-            <option value="5">Tier 5</option>
-            <option value="6">Tier 6</option>
-            <option value="7">Tier 7</option>
-            <option value="8">Tier 8</option>
-        </select>
-    
-        
-        <input type="number" id="inpSpeed" class="inps" min="15" max="79">
-    <label for="inpSpeed">% Increased Attack Speed</label>
-        <br><br>
-    
-        <select id="selCrit" class="sels">
-            <option value="0">Added Critical Hit Chance</option>
-    
-            <option value="1">Tier 1</option>
-            <option value="2">Tier 2</option>
-            <option value="3">Tier 3 / Essence</option>
-            <option value="4">Craft 1</option>
-            <option value="5">Craft 2</option>
-            <option value="6">Tier 4</option>
-            <option value="7">Craft 3</option>
-            <option value="8">Tier 5</option>
-            <option value="9">Tier 6</option>
         </select>
     
         
-        <span style="margin-left: 31px;">+</span><input type="number" id="inpCrit" class="inps" min="1.01" max="5" step="0.01">
-    <label for="inpCrit">% to Critical Hit Chance</label>
+        <input type="number" id="inpRune1" class="inps" min="15" max="79">
+    <label for="inpRune1" style="color: #b4b4ff;">% Implicit</label> Disabled, coming soon.
+
         <br><br>
 
-        <select id="selEnch" class="sels">
-            <option value="9">Ench</option>
+        <select id="selRune2" class="sels">
+            <option value="0">Rune Socket Implicit</option>
     
-            <option value="0">Essence</option>
-            <option value="1">Tier 1</option>
-            <option value="2">Tier 2</option>
-            <option value="3">Tier 3</option>
-            <option value="4">Tier 4</option>
-            <option value="5">Tier 5</option>
-            <option value="6">Tier 6</option>
-            <option value="7">Tier 7</option>
-            <option value="8">Tier 8</option>
         </select>
     
         
-        <input type="number" id="inpEnch1" class="inps" min="15" max="79">
-    <label for="inpEnch1">% Ench1</label> 
-    <input type="number" id="inpEnch2" class="inps" min="15" max="79">
-    <label for="inpEnch2">% Ench2</label>
+        <input type="number" id="inpRune2" class="inps" min="15" max="79">
+    <label for="inpRune2" style="color: #b4b4ff;">% Implicit</label> Disabled, coming soon.
+
         <br><br>
 
 
@@ -200,70 +167,75 @@
 
 </div>
 
-<div id="disclaimer">Third-Party Notice: This product isn't affiliated with or endorsed by Grinding Gear Games in any way.</div>
+<div id="disclaimer">
+    <a href="https://poepsn.blogspot.com/">PoE PSN</a> | 
+    <a href="https://pathofjs.github.io/poepdps/">PoePDPS</a> | 
+    <a href="https://pathofjs.github.io/poe2pdps/">PoE2PDPS</a> 
+    are not affiliated with Grinding Gear Games in any way.</div>
+<br>
+Views: <div id="visit-count"></div>
 <style>
 
 @font-face {
-    font-family: 'Fontin Regular';
-    src: url('css/font/Fontin-Regular.otf');
+font-family: 'Fontin Regular';
+src: url('css/font/Fontin-Regular.otf');
 }
 
 @font-face {
-    font-family: 'Fontin Bold';
-    src: url('css/font/Fontin-Bold.otf');
+font-family: 'Fontin Bold';
+src: url('css/font/Fontin-Bold.otf');
 }
 
 @font-face {
-    font-family: 'Fontin SmallCaps';
-    src: url('css/font/Fontin-SmallCaps.otf');
+font-family: 'Fontin SmallCaps';
+src: url('css/font/Fontin-SmallCaps.otf');
 }
 
 body {
-    font-family: 'Fontin Regular';
-    color:rgb(163, 141, 109);
-    background: #0e1115 url(img/poe2/bg.webp) no-repeat fixed top center;
-    background-size: 100% auto;
+font-family: 'Fontin Regular';
+color:rgb(163, 141, 109);
+background: #0e1115 url(img/poe2/bg.webp) no-repeat fixed top center;
+background-size: 100% auto;
 
 }
 
 /** body::after {
 background-size: cover;
 
-  content: "";
-  background: url(img/poe2/bg.webp);
-  opacity: 0.9;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -1; 
-  width:auto;
-  height: auto;  
+content: "";
+background: url(img/poe2/bg.webp);
+opacity: 0.9;
+top: 0;
+left: 0;
+bottom: 0;
+right: 0;
+position: absolute;
+z-index: -1; 
+width:auto;
+height: auto;  
 }
 
 **/
 
 .contained {
-    width: 50%; /* Adjust the width as needed */
-    margin: 0 auto;
+width: 650px;
 }
 
 .wepFrame {
 
-     float:left;
-    width: 450px;
+float:left;
+width: max-content;
 position: relative;
-    border: 1px solid black;
-    background-color: rgba(0,0,0,0.8);
-    text-align: center;
-    color: #7f7f7f;
-    font-family: 'Fontin SmallCaps', sans-serif;
-    font-weight: normal;
+border: 1px solid black;
+background-color: rgba(0,0,0,0.8);
+text-align: center;
+color: #7f7f7f;
+font-family: 'Fontin SmallCaps', sans-serif;
+font-weight: normal;
 }
-            
+
 .wepVal {
-    color: #88f !important;
+color: #88f !important;
 
 }
 
@@ -271,22 +243,22 @@ position: relative;
 
 
 .wepHead {
-    height: 54px;
-    width: auto;
-    display: block;
-    background: url(img/poe2/header-rare-left.png) top left / 46px auto no-repeat, 
-    url(img/poe2/header-rare-right.png) top right / 46px auto no-repeat, 
-    url(img/poe2/header-rare-middle.png) top center / 46px auto repeat-x;
+height: 54px;
+width: auto;
+display: block;
+background: url(img/poe2/header-rare-left.png) top left / 46px auto no-repeat, 
+url(img/poe2/header-rare-right.png) top right / 46px auto no-repeat, 
+url(img/poe2/header-rare-middle.png) top center / 46px auto repeat-x;
 }
 
 .wepName {
-
-    top: 68%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #FFFF77; /* Adjust text color as needed */
-    font-size: 23px; /* Adjust font size as needed */
-    text-align: center;
+padding: 0 50px;
+top: 68%;
+left: 50%;
+transform: translate(-50%, -50%);
+color: #FFFF77; 
+font-size: 23px; 
+text-align: center;
 }
 
 
@@ -294,75 +266,82 @@ position: relative;
 
 .wepHead::before,
 .wepHead::after {
-  content: "";
-  position: absolute;
-  top: 14px;
-  left: 0;
-  width: 100%;
-  height: 50%;
- background-repeat: no-repeat;
+content: "";
+position: absolute;
+top: 14px;
+left: 0;
+width: 100%;
+height: 50%;
+background-repeat: no-repeat;
 }
 
 .wepHead::before {
-  background-image: url("img/Warlord-item-symbol.png");
-  background-position: left center; 
-  background-size: contain;
+background-image: url("img/Warlord-item-symbol.png");
+background-position: left center; 
+background-size: contain;
 }
-  
+
 .wepHead::after {
-  background-image: url("img/Elder-item-symbol.png");
-  background-position: right center; 
-  background-size: contain;
+background-image: url("img/Elder-item-symbol.png");
+background-position: right center; 
+background-size: contain;
 }
 
 */
 .userInps {
-    font-family: 'Fontin SmallCaps';
+font-family: 'Fontin SmallCaps';
 }
 
 .sels {
-            width: 170px;
-            font-family: 'Fontin SmallCaps';
+width: 170px;
+font-family: 'Fontin SmallCaps';
 
-        }
+}
 
-        .inps{
-            width: 44px;
-            font-family: 'Fontin SmallCaps';
-            text-transform: uppercase;
-            color: #fff;
-    background-color: #222;
-    outline-color: rgb(163, 141, 109);
-    text-decoration-color: rgb(163, 141, 109);
-    text-emphasis-color: rgb(163, 141, 109);
-    background: #1e2124;
-    padding: 5px;
-    background-image: none;
-    border: 1px solid #000;
-    border-radius: 0px;
-    -webkit-box-shadow: rgba(0, 0, 0, 0.075) 0px 1px 1px 0px inset;
-    box-shadow: rgba(0, 0, 0, 0.075) 0px 1px 1px 0px inset;
-    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    -webkit-text-fill-color: rgb(163, 141, 109);
+.inps{
+width: 44px;
+font-family: 'Fontin SmallCaps';
+text-transform: uppercase;
+color: #fff;
+background-color: #222;
+outline-color: rgb(163, 141, 109);
+text-decoration-color: rgb(163, 141, 109);
+text-emphasis-color: rgb(163, 141, 109);
+background: #1e2124;
+padding: 5px;
+background-image: none;
+border: 1px solid #000;
+border-radius: 0px;
+-webkit-box-shadow: rgba(0, 0, 0, 0.075) 0px 1px 1px 0px inset;
+box-shadow: rgba(0, 0, 0, 0.075) 0px 1px 1px 0px inset;
+-webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+-webkit-text-fill-color: rgb(163, 141, 109);
 
 -webkit-text-stroke-color: rgb(163, 141, 109);
-        }
+}
 
-        #inpPhys, #inpHyb, #inpSpeed,  #inpEnch1 {
-            margin-left: 38px;
-        }
+#inpPhys, #inpHyb, #inpSpeed, #inpRune1, #inpRune2 {
+margin-left: 40px;
+}
+
+label {
+color:#88f ;
+}
 
 
 
-        #displayTierValues{
-            display: none;
-        }
-        
+
+#displayTierValues{
+display: none;
+}
+
 #disclaimer {
-    text-align: center;
+text-align: center;
+font-size: small;
+float:left;
 }
 
 </style>

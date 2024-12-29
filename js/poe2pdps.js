@@ -1,10 +1,12 @@
 
 document.addEventListener("DOMContentLoaded", function() {
-
+  console.log("Script has started running.");
 const wepName = document.querySelector('.wepName');
 
 const wepClass = document.getElementById('wepClass');
 const baseImg = document.getElementById("baseImg");
+const selWep = document.getElementById("selWep");
+
 const imagePathPrefix = "img/poe2/art/"; 
 
 const weaponImageNameMap = {
@@ -25,6 +27,8 @@ function preloadImages(imageNameBase, artValue) {
 
 const inpBaseMin = document.getElementById("inpBaseMin");
 const inpBaseMax = document.getElementById("inpBaseMax");
+
+const inpBaseAps = document.getElementById("inpBaseAps"); 
 
 const selFlat = document.getElementById("selFlat");
 const inpFlatMin = document.getElementById("inpFlatMin");
@@ -51,9 +55,17 @@ const wepAps = document.getElementById("wepAps");
 const inpQual = document.getElementById("inpQual");
 const wepQual = document.getElementById("wepQual");
 
+const wepCrit = document.getElementById("wepCrit"); 
+
 const basePdps = document.getElementById("basePdps");
 
+const selRune1 = document.getElementById("selRune1");
+const selRune2 = document.getElementById("selRune2");
+const inpRune1 = document.getElementById("inpRune1");
+const inpRune2 = document.getElementById("inpRune2"); // Assuming this exists
 
+const wepRune1 = document.getElementById('wepRune1');
+const wepRune2 = document.getElementById('wepRune2');
             
 
 
@@ -228,9 +240,11 @@ const tiersCrit = {
 0: { min: 0, max: 0 }
 };
 
-const tiersEnch = [
-  { phys1: 10 },
-  { phys2: 20 }
+
+
+  const tiersRune = [
+    { phys: 20 },
+    { atkSpd: 5},
   ]; 
 
 
@@ -294,17 +308,30 @@ const tiersEnch = [
 
   function handleWeaponSelection() {
     const selectedWeaponType = selWep.value;
-
+  
     baseData = weaponData[selectedWeaponType].data;
     populateSelBase(baseData);
     
     const isTwoHanded = weaponData[selectedWeaponType].h === "2";
     
+    // Store the current tier selection before repopulating `selFlat`
+    const currentTier = selFlat.value;
+  
+    // Repopulate `selFlat` with the correct tiers for the new weapon type
     populateSelFlat(isTwoHanded);
-    updateInpFlatTier(selFlat.value);
+  
+    // Reselect the tier that was previously selected, if it exists
+    if (selFlat.querySelector(`option[value="${currentTier}"]`)) {
+      selFlat.value = currentTier;
+    } else {
+      // If the previous tier doesn't exist for the new weapon type, set to default or handle as needed
+      selFlat.value = "0"; // or whatever default you want to set
+    }
+  
+    updateInpFlatTier(selFlat.value); // Update the flat damage inputs based on the current tier
     updateWepClass(selectedWeaponType);
     handleBaseSelection(); 
-}
+  }
 
 function populateSelFlat(isTwoHanded) {
   selFlat.innerHTML = ""; 
@@ -324,6 +351,45 @@ function populateSelFlat(isTwoHanded) {
   
   selFlat.value = "0";
 }
+
+
+// Populate both rune selectors with the same options from tiersRune
+function populateRuneSelectors() {
+  [selRune1, selRune2].forEach((sel, i) => {
+    sel.innerHTML = '';
+    const emptyOption = document.createElement("option");
+    emptyOption.value = "";
+    emptyOption.text = `Rune Socket ${i + 1}`;
+    sel.appendChild(emptyOption);
+
+    tiersRune.forEach((rune, index) => {
+      const option = document.createElement("option");
+      option.value = index;
+      option.text = `Rune ${i + 1}: ${rune.phys ? 'Phys +' + rune.phys + '%' : 'AtkSpd +' + rune.atkSpd + '%'}`;
+      sel.appendChild(option);
+    });
+  });
+}
+
+    // Event listener for when a rune is selected
+    function handleRuneSelection(selector, input) {
+      selector.addEventListener("change", function() {
+          const selectedIndex = this.value;
+          if (tiersRune[selectedIndex]) {
+              if (tiersRune[selectedIndex].phys) {
+                  input.value = tiersRune[selectedIndex].phys ;
+              } else if (tiersRune[selectedIndex].atkSpd) {
+                  input.value = tiersRune[selectedIndex].atkSpd ;
+              } else {
+                  input.value = ''; // Clear if no valid selection
+              }
+          }
+      });
+  }
+
+  populateRuneSelectors();
+//  handleRuneSelection(selRune1, inpRune1);
+//  handleRuneSelection(selRune2, inpRune2);
 
 function updateWepClass(weaponType) {
   wepClass.innerText = weaponType;
@@ -411,6 +477,19 @@ selCrit.addEventListener("change", () => {
   updateTotalValues();
 });
 
+selRune1.addEventListener('change', function() {
+  console.log("selRune1 changed");
+  
+  updatePdps();
+  updateTotalValues();
+});
+
+selRune2.addEventListener('change', function() {
+  console.log("selRune2 changed");
+  
+  updatePdps();
+  updateTotalValues();
+});
 
 const inputElements = [
   inpFlatMin,
@@ -435,23 +514,14 @@ inputElements.forEach(input => {
 
 
 
-function updateInpBase(baseName) {
-  if (baseData && baseData[baseName]) {
-      inpBaseMin.value = baseData[baseName].min;
-      inpBaseMax.value = baseData[baseName].max;
-      inpBaseAps.value = baseData[baseName].aps; 
-  } else {
-      inpBaseMin.value = "";
-      inpBaseMax.value = "";
-      inpBaseAps.value = ""; 
-      console.error("Invalid base selected:", baseName);
-  }
-}
+
 
 selBase.addEventListener("change", () => {
   const selectedBase = selBase.value;
   updateInpBase(selectedBase);
+  updateInpFlatTier(selFlat.value);
   updateTotalValues();
+  updatePdps();
 });
 
 function updateInpFlatTier(tier) {
@@ -563,7 +633,8 @@ function updateTotalValues() {
 
   let inpPhysValue = parseInt(inpPhys.value);
   let inpHybValue = parseInt(inpHyb.value);
-
+  const inpSpeedValue = parseFloat(inpSpeed.value) || 0;
+  
   if (isNaN(inpPhysValue)) {
     inpPhysValue = 0;
   }
@@ -571,83 +642,128 @@ function updateTotalValues() {
     inpHybValue = 0;
   }
 
-  let minTotal = minBaseValue + minFlatValue;
-  let maxTotal = maxBaseValue + maxFlatValue;
+  // Initialize rune values
+  let runePhysValue = 0;
+  let runeSpeedValue = 0;
+  let rune1Text = "";
+  let rune2Text = "";
 
-  if (minFlatValue > 0 || maxFlatValue > 0) {
-    const totalFlats = minFlatValue + maxFlatValue;
+  // Check for rune selection from dropdowns
+  const rune1Selected = parseInt(selRune1.value);
+  const rune2Selected = parseInt(selRune2.value);
 
-    let multiplier = 1;
-    if (inpPhysValue > 0 || inpHybValue > 0) {
-      const totalTierValue = inpPhysValue + inpHybValue;
-      multiplier = 1 + totalTierValue / 100;
-    }
-
-    minTotal *= multiplier;
-    maxTotal *= multiplier;
-
-
-    
-  } else {
-    if (inpPhysValue > 0 || inpHybValue > 0) {
-      const totalTierValue = inpPhysValue + inpHybValue;
-      multiplier = 1 + totalTierValue / 100;
-
-      minTotal = Math.round(minBaseValue * multiplier);
-      maxTotal = Math.round(maxBaseValue * multiplier);
+  if (!isNaN(rune1Selected) && tiersRune[rune1Selected]) {
+    if (tiersRune[rune1Selected].phys) {
+      runePhysValue += tiersRune[rune1Selected].phys;
+    } else if (tiersRune[rune1Selected].atkSpd) {
+      runeSpeedValue += tiersRune[rune1Selected].atkSpd;
     }
   }
 
-  minTotal = minTotal * qualityMultiplier;
-  maxTotal = maxTotal * qualityMultiplier;
+  if (!isNaN(rune2Selected) && tiersRune[rune2Selected]) {
+    if (tiersRune[rune2Selected].phys) {
+      runePhysValue += tiersRune[rune2Selected].phys;
+    } else if (tiersRune[rune2Selected].atkSpd) {
+      runeSpeedValue += tiersRune[rune2Selected].atkSpd;
+    }
+  }
+
+  // Set text based on rune type priorities
+  if (runePhysValue > 0) {
+    rune1Text = `${runePhysValue}% increased Physical Damage`;
+  }
+  if (runeSpeedValue > 0) {
+    if (runePhysValue > 0) {
+      rune2Text = `${runeSpeedValue}% Increased Attack Speed`;
+    } else {
+      rune1Text = `${runeSpeedValue}% Increased Attack Speed`;
+    }
+  }
+
+  // Update the display for rune effects
+  wepRune1.innerText = rune1Text;
+  wepRune2.innerText = rune2Text;
+  const existingBr = document.querySelector('.wepRuneBr');
+  
+  if (rune2Text) {
+    wepRune2.style.display = "inline"; // Ensure span is visible if there's text
+    if (existingBr) {
+      existingBr.style.display = ""; // Reset to default, which should be 'block' for <br>
+    }
+  } else {
+    wepRune2.style.display = "none"; // Hide if not needed
+    if (existingBr) {
+      existingBr.style.display = "none"; // Hide the <br> if wepRune2 is empty
+    }
+  }
+
+ 
+  // Apply physical damage modifiers including rune bonus
+  let physMultiplier = 1;
+  if (inpPhysValue > 0 || inpHybValue > 0 || runePhysValue > 0) {
+    const totalTierValue = inpPhysValue + inpHybValue + runePhysValue;
+    physMultiplier = 1 + totalTierValue / 100;
+  }
+  
+  let minTotal = (minBaseValue + minFlatValue) * physMultiplier;
+  let maxTotal = (maxBaseValue + maxFlatValue) * physMultiplier;
+
+  minTotal *= qualityMultiplier;
+  maxTotal *= qualityMultiplier;
 
   totalMin.innerText = Math.round(minTotal);
   totalMax.innerText = Math.round(maxTotal);
   wepQual.innerText = isNaN(incQual) ? 0 : incQual;
+
+  if (minFlatValue > 0 || maxFlatValue > 0) {
+    minTotal *= physMultiplier;
+    maxTotal *= physMultiplier;
+  } else {
+    minTotal = Math.round(minBaseValue * physMultiplier);
+    maxTotal = Math.round(maxBaseValue * physMultiplier);
+  }
+
+  minTotal = minTotal * qualityMultiplier;
+  maxTotal = maxTotal * qualityMultiplier;
 
 
   const selectedBase = selBase.value;
   const baseItem = baseData[selectedBase]; 
   const baseCritChance = baseItem ? baseItem.crit : 0;
 
-  
-const critMultiplierInput = parseFloat(inpCrit.value);
-const critMultiplier = isNaN(critMultiplierInput) ? 0 : critMultiplierInput;
+  const critMultiplierInput = parseFloat(inpCrit.value);
+  const critMultiplier = isNaN(critMultiplierInput) ? 0 : critMultiplierInput;
 
-const totalCritChance = baseCritChance + critMultiplier;
-
+  const totalCritChance = baseCritChance + critMultiplier;
   wepCrit.innerText = totalCritChance.toFixed(2) + "%";
 
-  if (baseData) {
-    const baseItem = baseData[selectedBase]; 
 
-    if (baseItem && baseItem.hasOwnProperty('aps')) {
-        const baseAps = parseFloat(baseItem.aps);
-        wepAps.innerText = baseAps.toFixed(2);
-        inpBaseAps.value = baseAps.toFixed(2);
 
-        const speedModifier = parseFloat(inpSpeed.value) / 100;
-        if (!isNaN(speedModifier)) {
-            const totalAps = baseAps * (1 + speedModifier);
-            wepAps.innerText = totalAps.toFixed(2);
-        } else {
-            wepAps.innerText = baseAps.toFixed(2);
-        }
-    } else {
-        wepAps.innerText = "Invalid Base Data";
-        inpBaseAps.value = 0;
-    }
-} else {
+
+
+
+
+// Update speed with rune effects
+  if (baseData && baseItem) {
+    const baseAps = parseFloat(baseItem.aps);
+    const speedModifier = (inpSpeedValue / 100) + (runeSpeedValue / 100);
+    const totalAps = baseAps * (1 + speedModifier);
+
+    wepAps.innerText = totalAps.toFixed(2);
+    inpBaseAps.value = baseAps.toFixed(2);
+  } else {
     wepAps.innerText = "Base not selected";
     inpBaseAps.value = 0;
+  }
+
+  updatePdps();
+  
 }
 
 selSpeed.addEventListener('change', () => {
   updateTotalValues();
   updatePdps();
 });
-}
-
 
 selBase.addEventListener('change', () => {
   const selectedBase = selBase.value;
@@ -657,7 +773,13 @@ selBase.addEventListener('change', () => {
   updateTotalValues();
   updatePdps();
 
+
+  console.log("New total min/max:", totalMin.innerText, totalMax.innerText);
+  console.log("New APS:", wepAps.innerText);
+
 });
+
+updateTotalValues();
 
 function updateVisitCount() {
   // Increment the counter
@@ -675,8 +797,9 @@ function updateVisitCount() {
 }
 
 
-updateVisitCount();
+// updateVisitCount();
 
+updateTotalValues()
 });
 
 

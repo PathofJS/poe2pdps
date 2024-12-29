@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>dpscalc</title>
+    <title>PoE 2 PDPS Calculator</title>
     <script src="js/poe2pdps.js"></script>
 
 
@@ -25,7 +25,8 @@
             Item Level: 86<br>
             Requires Level 67, 151 Str, 43 Dex<br>
             <img style="text-align: center; vertical-align: middle;" src="img/poe2/separator-rare.png"><br>
-            <span class="wepEnch" style="text-align: center; vertical-align: middle; color: #b4b4ff;">Enchantment</span><br>
+            <span id="wepRune1" style="text-align: center; vertical-align: middle; color: #b4b4ff;">Rune Implicit 1</span><br>
+            <span id="wepRune2" style="text-align: center; vertical-align: middle; color: #b4b4ff;"></span><br class="wepRuneBr" style="display: none;">
             <img style="text-align: center; vertical-align: middle;" src="img/poe2/separator-rare.png"><br>
             <span id="wepPrf1" class="aff">P1</span><br>
             <span id="wepPrf2" class="aff">P2</span><br>
@@ -134,16 +135,25 @@
 <label for="inpCrit">% to Critical Hit Chance</label>
 <br><br>
 
-        <select id="selEnch" class="sels">
-            <option value="0">Rune Socket Enchantment</option>
+        <select id="selRune1" class="sels">
+            <option value="0">Rune Socket Implicit</option>
     
-            <option value="1">+20% Increased Phys</option>
-            <option value="2">+40% Increased Phys</option>
         </select>
     
         
-        <input type="number" id="inpEnch" class="inps" min="15" max="79">
-    <label for="inpEnch" style="color: #b4b4ff;">% Enchantment</label> Disabled, coming soon.
+        <input type="number" id="inpRune1" class="inps" min="15" max="79">
+    <label for="inpRune1" style="color: #b4b4ff;">% Implicit</label>
+
+        <br><br>
+
+        <select id="selRune2" class="sels">
+            <option value="0">Rune Socket Implicit</option>
+    
+        </select>
+    
+        
+        <input type="number" id="inpRune2" class="inps" min="15" max="79">
+    <label for="inpRune2" style="color: #b4b4ff;">% Implicit</label> 
 
         <br><br>
 
@@ -160,7 +170,7 @@
 <div id="disclaimer">
     <a href="https://poepsn.blogspot.com/">PoE PSN</a> | 
     <a href="https://pathofjs.github.io/poepdps/">PoePDPS</a> | 
-    <a href="https://pathofjs.github.io/PoE2PDPS/">PoE2PDPS</a> 
+    <a href="https://pathofjs.github.io/poe2pdps/">PoE2PDPS</a> 
     are not affiliated with Grinding Gear Games in any way.</div>
 <br>
 Views: <div id="visit-count"></div>
@@ -214,7 +224,7 @@ width: 650px;
 .wepFrame {
 
 float:left;
-width: 450px;
+width: max-content;
 position: relative;
 border: 1px solid black;
 background-color: rgba(0,0,0,0.8);
@@ -242,7 +252,7 @@ url(img/poe2/header-rare-middle.png) top center / 46px auto repeat-x;
 }
 
 .wepName {
-
+padding: 0 50px;
 top: 68%;
 left: 50%;
 transform: translate(-50%, -50%);
@@ -313,7 +323,7 @@ transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 -webkit-text-stroke-color: rgb(163, 141, 109);
 }
 
-#inpPhys, #inpHyb, #inpSpeed,  #inpEnch {
+#inpPhys, #inpHyb, #inpSpeed, #inpRune1, #inpRune2 {
 margin-left: 40px;
 }
 
