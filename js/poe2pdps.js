@@ -797,7 +797,7 @@ function updateVisitCount() {
 }
 
 
-// updateVisitCount();
+updateVisitCount();
 
 updateTotalValues()
 });
