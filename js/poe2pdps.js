@@ -14,7 +14,8 @@ const weaponImageNameMap = {
   "Bow": "Bow0",
   "Quarterstaff": "Warstaff0",
   "Two Hand Mace": "2HMace0",
-  "One Hand Mace": "1HMace0"
+  "One Hand Mace": "1HMace0",
+  "Spear": "1hspear"
 };
 
 function preloadImages(imageNameBase, artValue) {
@@ -160,12 +161,42 @@ FelledGreatclub: { type: 0, min: 13, max: 18, crit: 5.00, aps: 1.10, art: 1 },
 OakGreathammer0: { type: 0, min: 14, max: 26, crit: 5.00, aps: 1.05, art: 2 }
 };
 
+//To edit names and numbers
+const Spear = {
+  Hardwood: { min: 5, max: 9, crit: 5.00, aps: 1.6, art: "01" },
+  Ironhead: { min: 7, max: 13, crit: 5.00, aps: 1.6, art: "02" },
+  Hunting: { min: 10, max: 18, crit: 5.00, aps: 1.55, art: "03" },
+  Winged: { min: 12, max: 22, crit: 5.00, aps: 1.65, art: "04" },
+  War: { min: 14, max: 26, crit: 5.00, aps: 1.6, art: "05" },
+  Forked: { min: 17, max: 32, crit: 5.00, aps: 1.6, art: "06" },
+  Barbed: { min: 20, max: 38, crit: 6.5, aps: 1.6, art: "07" },
+  Broad: { min: 26, max: 48, crit: 5.00, aps: 1.5, art: "08" },
+  Crossblade: { min: 28, max: 51, crit: 5.00, aps: 1.55, art: "09" },
+  Steelhead: { min: 27, max: 50, crit: 5.00, aps: 1.6, art: "02" },
+  Seaglass: { min: 27, max: 50, crit: 10.00, aps: 1.6, art: 10 },
+  Coursing: { min: 29, max: 54, crit: 5.00, aps: 1.55, art: "03" },
+  Swift: { min: 28, max: 53, crit: 5.00, aps: 1.6, art: "05" },
+  Sword: { min: 30, max: 56, crit: 5.00, aps: 1.6, art: "11" },
+  Branched: { min: 32, max: 59, crit: 5.00, aps: 1.6, art: "06" },
+  Jagged: { min: 33, max: 61, crit: 6.5, aps: 1.6, art: "07" },
+  Massive: { min: 38, max: 70, crit: 5.00, aps: 1.5, art: "08" },
+  Helix: { min: 37, max: 68, crit: 5.00, aps: 1.6, art: 13 },
+  Orichalcum: { min: 38, max: 70, crit: 5.00, aps: 1.6, art: "02" },
+  Striking: { min: 23, max: 91, crit: 5.00, aps: 1.6, art: 12 },
+  Pronged: { min: 40, max: 75, crit: 5.00, aps: 1.6, art: "06" },
+  Flying: { min: 41, max: 76, crit: 5.00, aps: 1.6, art: "05" },
+  Spiked: { min: 41, max: 76, crit: 6.5, aps: 1.6, art: "07" },
+  Stalking: { min: 44, max: 82, crit: 5.00, aps: 1.55, art: "03" },
+  Grand: { min: 46, max: 85, crit: 5.00, aps: 1.5, art: "08" }
+};
+
 const weaponData = {
   "Bow": { data: Bow, h: "2" },
   "Crossbow": { data: Crossbow, h: "2" },
   "One Hand Mace": { data: OneHandMace, h: "1" },
   "Quarterstaff": { data: Quarterstaff, h: "2" },
-  "Two Hand Mace": { data: TwoHandMace, h: "2" }
+  "Two Hand Mace": { data: TwoHandMace, h: "2" },
+  "Spear": { data: Spear, h: "1" },
 };
           
 const tiersFlat = {
